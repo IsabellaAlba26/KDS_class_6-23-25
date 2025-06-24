@@ -24,7 +24,7 @@ cleaned_data %>%
   geom_boxplot(alpha = 0.7) +
   scale_y_continuous(labels = scales::dollar_format()) +
   labs(
-    title = "Distribution of Median Income by NYC County",
+    title = "Distribution of Median Income by NYC Borough",
     x = "Borough",
     y = "Median Household Income (USD)"
   ) +
