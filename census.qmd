@@ -1,0 +1,34 @@
+---
+title: "NYC Census Tracts"
+format: html
+---
+
+```{r}
+#| echo: FALSE
+#| message: FALSE
+library(tidyverse)
+data<- read_csv(file = "nyc_tracts.csv")
+
+cleaned_data <- data %>%
+  mutate(
+    county = str_extract(tract, "(?<=; ).*? County"),
+    county = str_remove(county, " County"),
+    county = str_replace(county, "^New York$", "Manhattan"),  # Rename
+    tract = county  # Optional: overwrite 'tract' with just county name
+  )
+
+# Plot: Median Income by County (Boxplot)
+cleaned_data %>%
+  drop_na(med_income) %>%
+  ggplot(aes(x = county, y = med_income, fill = county)) +
+  geom_boxplot(alpha = 0.7) +
+  scale_y_continuous(labels = scales::dollar_format()) +
+  labs(
+    title = "Distribution of Median Income by NYC County",
+    x = "Borough",
+    y = "Median Household Income (USD)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
